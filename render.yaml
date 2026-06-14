@@ -4,8 +4,8 @@ services:
     name: aks-spring-postgres
     runtime: docker
     rootDir: coreservices_AKS
-    dockerfilePath: Dockerfile
-    dockerContext: .
+    dockerfilePath: coreservices_AKS/Dockerfile
+    dockerContext: coreservices_AKS
     envVars:
       - key: PORT
         value: 8001
@@ -21,8 +21,8 @@ services:
     name: aks-spring-mongo
     runtime: docker
     rootDir: coreservices_mongo
-    dockerfilePath: Dockerfile
-    dockerContext: .
+    dockerfilePath: coreservices_mongo/Dockerfile
+    dockerContext: coreservices_mongo
     envVars:
       - key: PORT
         value: 8020
