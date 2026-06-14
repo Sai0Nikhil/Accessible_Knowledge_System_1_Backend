@@ -1,0 +1,66 @@
+services:
+  # 1. Spring Boot PostgreSQL Service (Docker, JDK 25)
+  - type: web
+    name: aks-spring-postgres
+    runtime: docker
+    rootDir: coreservices_AKS
+    dockerfilePath: Dockerfile
+    dockerContext: .
+    envVars:
+      - key: PORT
+        value: 8001
+      - key: DATABASE_URL
+        value: jdbc:postgresql://ep-delicate-hill-aoka5npk-pooler.c-2.ap-southeast-1.aws.neon.tech/neondb?sslmode=require
+      - key: DATABASE_USERNAME
+        value: neondb_owner
+      - key: DATABASE_PASSWORD
+        value: npg_Onc3pXLSBV2N
+
+  # 2. Spring Boot MongoDB Service (Docker, JDK 25)
+  - type: web
+    name: aks-spring-mongo
+    runtime: docker
+    rootDir: coreservices_mongo
+    dockerfilePath: Dockerfile
+    dockerContext: .
+    envVars:
+      - key: PORT
+        value: 8020
+      - key: MONGODB_URI
+        value: mongodb+srv://test:admin123@cluster0.hxyc73f.mongodb.net/Accessible_Knowledge_System_1?appName=Cluster0m
+
+  # 3. Node.js Reviews Service
+  - type: web
+    name: aks-node-reviews
+    runtime: node
+    rootDir: node_service
+    buildCommand: npm install
+    startCommand: npm start
+    envVars:
+      - key: PORT
+        value: 8002
+      - key: MONGODB_URI
+        value: mongodb+srv://test:admin123@cluster0.hxyc73f.mongodb.net/Accessible_Knowledge_System_1?appName=Cluster0m
+
+  # 4. FastAPI Gateway Service
+  - type: web
+    name: aks-gateway
+    runtime: python
+    rootDir: gateway
+    buildCommand: pip install -r requirements.txt
+    startCommand: python run.py
+    envVars:
+      - key: PORT
+        value: 8000
+      - key: HOST
+        value: 0.0.0.0
+      - key: RELOAD
+        value: "false"
+      - key: SPRING_URL
+        value: http://aks-spring-postgres:8001
+      - key: MONGO_SPRING_URL
+        value: http://aks-spring-mongo:8020
+      - key: NODE_SERVICE_URL
+        value: http://aks-node-reviews:8002
+      - key: ALLOWED_ORIGINS
+        sync: false
