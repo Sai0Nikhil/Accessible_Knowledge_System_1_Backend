@@ -49,6 +49,10 @@ public class DataSeeder implements CommandLineRunner {
 				"Genetics, evolution, molecular biology, and life sciences.");
 		seedSection("finance", "Finance",
 				"Markets, econometrics, quantitative finance, and economic theory.");
+		seedSection("literature", "Literature",
+				"General literature and books from Open Library.");
+		seedSection("science", "Science",
+				"General science papers and publications from arXiv.");
 
 		if (resourceRepo.count() == 0) {
 			seedSampleResources();

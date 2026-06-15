@@ -8,6 +8,7 @@ from controllers.init import (
     ExternalRouter,
     ReviewsRouter,
     MongoMetadataRouter,
+    RequestsRouter,
 )
 
 app = FastAPI(title="AKS Gateway")
@@ -29,6 +30,7 @@ app.include_router(AuthenticationRouter)
 app.include_router(SectionsRouter)
 app.include_router(ResourcesRouter)
 app.include_router(BorrowsRouter)
+app.include_router(RequestsRouter)
 app.include_router(ExternalRouter)
 app.include_router(ReviewsRouter)
 app.include_router(MongoMetadataRouter)

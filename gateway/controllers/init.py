@@ -5,5 +5,6 @@ from .borrowsController import router as BorrowsRouter
 from .externalController import router as ExternalRouter
 from .reviewsController import router as ReviewsRouter
 from .mongoMetadataController import router as MongoMetadataRouter
+from .requestsController import router as RequestsRouter
 
 
