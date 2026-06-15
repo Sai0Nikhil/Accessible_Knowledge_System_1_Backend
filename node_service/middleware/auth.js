@@ -11,9 +11,14 @@ export function authenticateToken(req, res, next) {
 
   try {
     const decoded = jwt.verify(token, SECRET_KEY);
+    let roleVal = decoded.role;
+    if (roleVal === 1 || roleVal === '1') roleVal = 'Student';
+    else if (roleVal === 2 || roleVal === '2') roleVal = 'Librarian';
+    else if (roleVal === 3 || roleVal === '3') roleVal = 'Admin';
+
     req.user = {
       email: decoded.username, // Spring Boot sets 'username' as the email
-      role: decoded.role
+      role: roleVal
     };
     next();
   } catch (err) {

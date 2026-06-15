@@ -61,3 +61,13 @@ async def uinfo(Token: str = Header(...)):
         res["id"] = res.get("email", "")
     return res
 
+
+@router.post("/forgot-password/request")
+async def forgot_password_request(data: dict):
+    return await mongo_spring_request("POST", "/authservice/forgot-password/request", json=data)
+
+
+@router.post("/forgot-password/reset")
+async def forgot_password_reset(data: dict):
+    return await mongo_spring_request("POST", "/authservice/forgot-password/reset", json=data)
+

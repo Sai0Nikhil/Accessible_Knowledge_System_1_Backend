@@ -54,4 +54,13 @@ public class UsersController {
 	    return US.getAllUsers();
 	}
 	
+	@PostMapping("/forgot-password/request")
+	public Object requestForgotPasswordOtp(@RequestBody Map<String, Object> data) {
+		return US.requestForgotPasswordOtp(data);
+	}
+
+	@PostMapping("/forgot-password/reset")
+	public Object resetPassword(@RequestBody Map<String, Object> data) {
+		return US.resetPassword(data);
+	}
 }
