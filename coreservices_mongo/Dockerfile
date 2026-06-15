@@ -19,5 +19,7 @@ WORKDIR /app
 # Copy the built war file
 COPY --from=build /app/target/coreservices-0.0.1-SNAPSHOT.war app.war
 
+ENV JAVA_TOOL_OPTIONS="-XX:TieredStopAtLevel=1 -Xmx256m -Xms256m"
+
 # Run the app
 ENTRYPOINT ["java", "-jar", "app.war"]
