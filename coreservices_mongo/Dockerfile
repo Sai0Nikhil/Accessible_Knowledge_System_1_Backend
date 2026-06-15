@@ -1,13 +1,16 @@
 # Build stage
-FROM maven:3.9.9-eclipse-temurin-25 AS build
+FROM eclipse-temurin:25-jdk AS build
 WORKDIR /app
 
-# Copy pom.xml and source code
+# Copy pom.xml, mvnw script, .mvn folder, and source code
 COPY pom.xml .
+COPY mvnw .
+COPY .mvn .mvn
 COPY src ./src
 
-# Build the war file
-RUN mvn clean package -DskipTests
+# Give execution permissions to mvnw and build the war
+RUN chmod +x mvnw
+RUN ./mvnw clean package -DskipTests
 
 # Run stage
 FROM eclipse-temurin:25-jre
