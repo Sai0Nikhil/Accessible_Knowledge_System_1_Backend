@@ -236,8 +236,16 @@ public class OpenLibraryService {
 		}
 
 		// Create the PENDING request tied to this resource.
-		Users u = usersRepo.findByEmail(AuthContext.get().getEmail())
-				.orElseThrow(() -> new NotFoundException("Caller user not found."));
+		String email = AuthContext.get().getEmail();
+		Users u = usersRepo.findByEmail(email).orElseGet(() -> {
+			Users stub = new Users();
+			stub.setEmail(email);
+			stub.setFullname(email.split("@")[0]);
+			stub.setRole(AuthContext.get().getRole());
+			stub.setPassword("");
+			stub.setStatus(1);
+			return usersRepo.save(stub);
+		});
 		String notes = str(payload.get("notes"));
 
 		BookRequest br = new BookRequest();
