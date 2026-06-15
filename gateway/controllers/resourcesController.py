@@ -13,9 +13,19 @@ async def list_resources(Token: str = Header(...),
     return await spring_request("GET", "/resources", token=Token, params=params)
 
 
+@router.get("/popular")
+async def get_popular(Token: str = Header(...)):
+    return await spring_request("GET", "/resources/popular", token=Token)
+
+
 @router.get("/search")
 async def search_resources(q: str, Token: str = Header(...)):
     return await spring_request("GET", "/resources/search", token=Token, params={"q": q})
+
+
+@router.get("/{resource_id}/similar")
+async def get_similar(resource_id: int, Token: str = Header(...)):
+    return await spring_request("GET", f"/resources/{resource_id}/similar", token=Token)
 
 
 @router.get("/{resource_id}")
@@ -34,6 +44,11 @@ async def create_resource(R: ResourceSchema, Token: str = Header(...)):
 async def update_resource(resource_id: int, R: ResourceSchema, Token: str = Header(...)):
     return await spring_request("PUT", f"/resources/{resource_id}",
                                 json=R.model_dump(exclude_unset=True), token=Token)
+
+
+@router.put("/{resource_id}/publish")
+async def set_resource_published(resource_id: int, body: dict, Token: str = Header(...)):
+    return await spring_request("PUT", f"/resources/{resource_id}/publish", json=body, token=Token)
 
 
 @router.delete("/{resource_id}")
